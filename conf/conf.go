@@ -53,6 +53,7 @@ func init() {
 
 	conf.SetDefault("p2p.private_key_path", "/etc/peanut/disc-private-key.b64")
 	conf.SetDefault("p2p.pnet_psk_path", "")
+	conf.SetDefault("p2p.peer_ttl", 300)
 	conf.SetDefault("p2p.listen_multiaddrs", []string{
 		"/ip4/0.0.0.0/udp/19880/quic-v1",
 	})
