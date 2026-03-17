@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-peanut-disc is a P2P discovery server written in Go (1.25.0), module path `github.com/pancpp/peanut-disc`. It uses libp2p-style networking (QUIC transport, multiaddrs) and is designed to run as a Linux systemd service.
+peanut-discovery is a P2P discovery server written in Go (1.25.0), module path `github.com/pancpp/peanut-discovery`. It uses libp2p-style networking (QUIC transport, multiaddrs) and is designed to run as a Linux systemd service.
 
 ## Build & Run
 
@@ -13,13 +13,13 @@ peanut-disc is a P2P discovery server written in Go (1.25.0), module path `githu
 go build
 
 # Build with version info (linker flags inject into conf package vars)
-go build -ldflags "-X github.com/pancpp/peanut-disc/conf.gVersion=1.0.0 -X github.com/pancpp/peanut-disc/conf.gBuildTime=$(date -u +%Y%m%d%H%M%S) -X github.com/pancpp/peanut-disc/conf.gGitHash=$(git rev-parse --short HEAD)"
+go build -ldflags "-X github.com/pancpp/peanut-discovery/conf.gVersion=1.0.0 -X github.com/pancpp/peanut-discovery/conf.gBuildTime=$(date -u +%Y%m%d%H%M%S) -X github.com/pancpp/peanut-discovery/conf.gGitHash=$(git rev-parse --short HEAD)"
 
 # Run
-./peanut-disc [--config /path/to/disc.yaml] [--version]
+./peanut-discovery [--config /path/to/discovery.yaml] [--version]
 ```
 
-Default config path: `/etc/peanut/disc.yaml`. The binary auto-creates the config directory and file if missing.
+Default config path: `/etc/peanut/discovery.yaml`. The binary auto-creates the config directory and file if missing.
 
 ## Architecture
 
@@ -33,8 +33,8 @@ Initialization flows sequentially in `main.go`: **conf → logger → app**, the
 
 | Key | Default | Purpose |
 |-----|---------|---------|
-| `log.path` | `/var/log/peanut/disc.log` | Log file location |
+| `log.path` | `/var/log/peanut/discovery.log` | Log file location |
 | `log.enable_console_log` | `false` | Also log to stdout |
-| `p2p.private_key_path` | `/etc/peanut/disc-private-key.b64` | Node identity key |
+| `p2p.private_key_path` | `/etc/peanut/discovery-private-key.b64` | Node identity key |
 | `p2p.pnet_psk_path` | `""` | Optional private network PSK |
 | `p2p.listen_multiaddrs` | `["/ip4/0.0.0.0/udp/19880/quic-v1"]` | Listen addresses |

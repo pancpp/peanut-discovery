@@ -1,4 +1,4 @@
-module github.com/pancpp/peanut-disc
+module github.com/pancpp/peanut-discovery
 
 go 1.25.0
 

@@ -7,9 +7,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/pancpp/peanut-disc/app"
-	"github.com/pancpp/peanut-disc/conf"
-	"github.com/pancpp/peanut-disc/logger"
+	"github.com/pancpp/peanut-discovery/app"
+	"github.com/pancpp/peanut-discovery/conf"
+	"github.com/pancpp/peanut-discovery/logger"
 )
 
 func main() {

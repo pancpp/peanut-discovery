@@ -7,7 +7,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/pancpp/peanut-disc/conf"
+	"github.com/pancpp/peanut-discovery/conf"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 

@@ -29,7 +29,7 @@ func init() {
 	)
 
 	pflag.BoolVarP(&showVersion, "version", "V", false, "Show version information.")
-	pflag.StringVarP(&confDirPath, "config", "c", "/etc/peanut/disc.yaml", "Config file path.")
+	pflag.StringVarP(&confDirPath, "config", "c", "/etc/peanut/discovery.yaml", "Config file path.")
 	pflag.Parse()
 
 	if showVersion {
@@ -45,13 +45,13 @@ func init() {
 
 	// set default values
 	conf.SetDefault("log.enable_console_log", false)
-	conf.SetDefault("log.path", "/var/log/peanut/disc.log")
+	conf.SetDefault("log.path", "/var/log/peanut/discovery.log")
 	conf.SetDefault("log.max_size", 500)
 	conf.SetDefault("log.max_backups", 3)
 	conf.SetDefault("log.local_time", true)
 	conf.SetDefault("log.compress", true)
 
-	conf.SetDefault("p2p.private_key_path", "/etc/peanut/disc-private-key.b64")
+	conf.SetDefault("p2p.private_key_path", "/etc/peanut/discovery-private-key.b64")
 	conf.SetDefault("p2p.pnet_psk_path", "")
 	conf.SetDefault("p2p.peer_ttl", 300)
 	conf.SetDefault("p2p.listen_multiaddrs", []string{

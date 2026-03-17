@@ -13,8 +13,8 @@ import (
 	"github.com/libp2p/go-libp2p/core/host"
 	"github.com/libp2p/go-libp2p/core/pnet"
 	quic "github.com/libp2p/go-libp2p/p2p/transport/quic"
-	"github.com/pancpp/peanut-disc/conf"
-	"github.com/pancpp/peanut-disc/peerstore"
+	"github.com/pancpp/peanut-discovery/conf"
+	"github.com/pancpp/peanut-discovery/peerstore"
 )
 
 var (
