@@ -1,10 +1,10 @@
 [Unit]
-Description=A simple P2P based virtual network: peanut discovery service
+Description=A simple P2P based virtual private network: peanut discovery service
 
 [Service]
 Type=simple
-WorkingDirectory=/srv/peanut
-ExecStart=/srv/peanut/peanut-discovery
+WorkingDirectory=/srv/peanut-discovery
+ExecStart=/srv/peanut-discovery/peanut-discovery -c /srv/peanut-discovery/discovery.yaml
 Restart=always
 RestartSec=2
 
