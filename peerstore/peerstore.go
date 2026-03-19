@@ -3,7 +3,6 @@ package peerstore
 import (
 	"context"
 	"log"
-	"net"
 	"sync"
 	"time"
 
@@ -12,7 +11,6 @@ import (
 )
 
 type PeerInfo struct {
-	IPAddr     net.IP
 	MultiAddrs []ma.Multiaddr
 	lastSeen   time.Time
 }
@@ -34,12 +32,11 @@ func NewPeerStore(ctx context.Context, ttl time.Duration) *PeerStore {
 	return ps
 }
 
-func (ps *PeerStore) Update(id peer.ID, ipAddr net.IP, multiAddrs []ma.Multiaddr) {
+func (ps *PeerStore) Update(id peer.ID, multiAddrs []ma.Multiaddr) {
 	ps.mtx.Lock()
 	defer ps.mtx.Unlock()
 
 	ps.peers[id] = PeerInfo{
-		IPAddr:     ipAddr,
 		MultiAddrs: multiAddrs,
 		lastSeen:   time.Now(),
 	}

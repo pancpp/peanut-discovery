@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"log"
-	"net"
 	"time"
 
 	"github.com/libp2p/go-libp2p/core/network"
@@ -12,7 +11,6 @@ import (
 )
 
 type HeartbeatMessage struct {
-	IPAddr     string   `json:"ip_addr"`
 	MultiAddrs []string `json:"multi_addrs"`
 }
 
@@ -39,13 +37,6 @@ func handleHeartbeat(stream network.Stream) {
 		return
 	}
 
-	// parse IP address
-	ipAddr := net.ParseIP(msg.IPAddr)
-	if ipAddr == nil {
-		log.Println("[heartbeat] invalid IP addr:", msg.IPAddr)
-		return
-	}
-
 	// parse multiaddrs
 	var multiAddrs []ma.Multiaddr
 	for _, s := range msg.MultiAddrs {
@@ -61,8 +52,7 @@ func handleHeartbeat(stream network.Stream) {
 		return
 	}
 
-	gPeerStore.Update(remotePeer, ipAddr, multiAddrs)
+	gPeerStore.Update(remotePeer, multiAddrs)
 
-	log.Printf("[heartbeat] updated peer %s, IP: %v, multiAddrs: %v",
-		remotePeer, ipAddr, multiAddrs)
+	log.Printf("[heartbeat] updated peer %s, IP: %v, multiAddrs: %v", remotePeer, multiAddrs)
 }

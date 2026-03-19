@@ -15,7 +15,6 @@ type DiscoveryRequestMsg struct {
 }
 
 type DiscoveryPeerMsg struct {
-	IPAddr     string   `json:"ip_addr"`
 	Multiaddrs []string `json:"multi_addrs"`
 }
 
@@ -69,7 +68,6 @@ func handleDiscovery(stream network.Stream) {
 		}
 
 		resp.PeerInfo[pidStr] = DiscoveryPeerMsg{
-			IPAddr:     info.IPAddr.String(),
 			Multiaddrs: addrs,
 		}
 	}
