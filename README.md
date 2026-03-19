@@ -41,7 +41,7 @@ go build -ldflags "\
 ./peanut-discovery [--config /path/to/discovery.yaml] [--version]
 ```
 
-The default config path is `/etc/peanut-discovery/discovery.yaml`. The binary auto-creates the config directory and file if they don't exist.
+The default config path is `/srv/peanut-discovery/discovery.yaml`. The binary auto-creates the config directory and file if they don't exist.
 
 ## Configuration
 
@@ -49,13 +49,13 @@ All settings can be specified in the YAML config file.
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `log.path` | `/var/log/peanut/discovery.log` | Log file location |
+| `log.path` | `/srv/peanut-discovery/discovery.log` | Log file location |
 | `log.enable_console_log` | `false` | Also log to stdout |
 | `log.max_size` | `500` | Max log file size in MB |
 | `log.max_backups` | `3` | Number of old log files to keep |
 | `log.local_time` | `true` | Use local time in log filenames |
 | `log.compress` | `true` | Compress rotated log files |
-| `p2p.private_key_path` | `/etc/peanut-discovery/private-key.b64` | Base64-encoded libp2p private key |
+| `p2p.private_key_path` | `/srv/peanut-discovery/private-key.b64` | Base64-encoded libp2p private key |
 | `p2p.pnet_psk_path` | `""` | Private network pre-shared key (optional) |
 | `p2p.listen_multiaddrs` | `["/ip4/0.0.0.0/udp/19880/quic-v1"]` | Listen addresses |
 | `p2p.peer_ttl` | `300` | Peer entry TTL in seconds |
@@ -81,7 +81,6 @@ All settings can be specified in the YAML config file.
 
 ```json
 {
-  "ip_addr": "203.0.113.1",
   "multi_addrs": ["/ip4/203.0.113.1/udp/19880/quic-v1"]
 }
 ```
@@ -100,7 +99,6 @@ All settings can be specified in the YAML config file.
 {
   "peer_info": {
     "12D3KooW...": {
-      "ip_addr": "203.0.113.1",
       "multi_addrs": ["/ip4/203.0.113.1/udp/19880/quic-v1"]
     }
   }

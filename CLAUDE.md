@@ -19,7 +19,7 @@ go build -ldflags "-X github.com/pancpp/peanut-discovery/conf.gVersion=1.0.0 -X 
 ./peanut-discovery [--config /path/to/discovery.yaml] [--version]
 ```
 
-Default config path: `/etc/peanut/discovery.yaml`. The binary auto-creates the config directory and file if missing.
+Default config path: `/srv/peanut-discovery/discovery.yaml`. The binary auto-creates the config directory and file if missing.
 
 ## Architecture
 
@@ -33,8 +33,8 @@ Initialization flows sequentially in `main.go`: **conf → logger → app**, the
 
 | Key | Default | Purpose |
 |-----|---------|---------|
-| `log.path` | `/var/log/peanut/discovery.log` | Log file location |
+| `log.path` | `/srv/peanut-discovery/discovery.log` | Log file location |
 | `log.enable_console_log` | `false` | Also log to stdout |
-| `p2p.private_key_path` | `/etc/peanut/discovery-private-key.b64` | Node identity key |
+| `p2p.private_key_path` | `/srv/peanut-discovery/private-key.b64` | Node identity key |
 | `p2p.pnet_psk_path` | `""` | Optional private network PSK |
 | `p2p.listen_multiaddrs` | `["/ip4/0.0.0.0/udp/19880/quic-v1"]` | Listen addresses |
