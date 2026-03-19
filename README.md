@@ -4,6 +4,8 @@ A peer discovery server for the [peanut](https://github.com/pancpp/peanut) P2P v
 
 Different from Kad DHT service, this discovery server is a simple example  implementation for small size private networks.
 
+In practice, a single discovery server is sufficient to host a private network. Nevertheless, multiple discovery servers can also be deployed for better robustness. 
+
 Built with [go-libp2p](https://github.com/libp2p/go-libp2p) using QUIC transport.
 
 ## How It Works
