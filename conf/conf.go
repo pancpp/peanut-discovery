@@ -29,7 +29,7 @@ func init() {
 	)
 
 	pflag.BoolVarP(&showVersion, "version", "V", false, "Show version information.")
-	pflag.StringVarP(&confDirPath, "config", "c", "/etc/peanut/discovery.yaml", "Config file path.")
+	pflag.StringVarP(&confDirPath, "config", "c", "/etc/peanut-discovery/discovery.yaml", "Config file path.")
 	pflag.Parse()
 
 	if showVersion {
@@ -51,12 +51,10 @@ func init() {
 	conf.SetDefault("log.local_time", true)
 	conf.SetDefault("log.compress", true)
 
-	conf.SetDefault("p2p.private_key_path", "/etc/peanut/discovery-private-key.b64")
+	conf.SetDefault("p2p.private_key_path", "/etc/peanut-discovery/private-key.b64")
 	conf.SetDefault("p2p.pnet_psk_path", "")
+	conf.SetDefault("p2p.listen_multiaddrs", []string{"/ip4/0.0.0.0/udp/19880/quic-v1"})
 	conf.SetDefault("p2p.peer_ttl", 300)
-	conf.SetDefault("p2p.listen_multiaddrs", []string{
-		"/ip4/0.0.0.0/udp/19880/quic-v1",
-	})
 
 	// set file path
 	conf.SetConfigFile(confDirPath)

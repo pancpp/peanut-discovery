@@ -3,6 +3,7 @@ package peerstore
 import (
 	"context"
 	"log"
+	"net"
 	"sync"
 	"time"
 
@@ -11,19 +12,20 @@ import (
 )
 
 type PeerInfo struct {
-	Addrs    []ma.Multiaddr
-	LastSeen time.Time
+	IPAddr     net.IP
+	MultiAddrs []ma.Multiaddr
+	lastSeen   time.Time
 }
 
 type PeerStore struct {
 	mtx   sync.RWMutex
-	peers map[peer.ID]*PeerInfo
+	peers map[peer.ID]PeerInfo
 	ttl   time.Duration
 }
 
 func NewPeerStore(ctx context.Context, ttl time.Duration) *PeerStore {
 	ps := &PeerStore{
-		peers: make(map[peer.ID]*PeerInfo),
+		peers: make(map[peer.ID]PeerInfo),
 		ttl:   ttl,
 	}
 
@@ -32,27 +34,28 @@ func NewPeerStore(ctx context.Context, ttl time.Duration) *PeerStore {
 	return ps
 }
 
-func (ps *PeerStore) Update(id peer.ID, addrs []ma.Multiaddr) {
+func (ps *PeerStore) Update(id peer.ID, ipAddr net.IP, multiAddrs []ma.Multiaddr) {
 	ps.mtx.Lock()
 	defer ps.mtx.Unlock()
 
-	ps.peers[id] = &PeerInfo{
-		Addrs:    addrs,
-		LastSeen: time.Now(),
+	ps.peers[id] = PeerInfo{
+		IPAddr:     ipAddr,
+		MultiAddrs: multiAddrs,
+		lastSeen:   time.Now(),
 	}
 }
 
-func (ps *PeerStore) Get(id peer.ID) (*PeerInfo, bool) {
+func (ps *PeerStore) Get(id peer.ID) (PeerInfo, bool) {
 	ps.mtx.RLock()
 	defer ps.mtx.RUnlock()
 
 	info, ok := ps.peers[id]
 	if !ok {
-		return nil, false
+		return PeerInfo{}, false
 	}
 
-	if time.Since(info.LastSeen) > ps.ttl {
-		return nil, false
+	if time.Since(info.lastSeen) > ps.ttl {
+		return PeerInfo{}, false
 	}
 
 	return info, true
@@ -65,14 +68,14 @@ func (ps *PeerStore) Remove(id peer.ID) {
 	delete(ps.peers, id)
 }
 
-func (ps *PeerStore) GetAll() map[peer.ID]*PeerInfo {
+func (ps *PeerStore) GetAll() map[peer.ID]PeerInfo {
 	ps.mtx.RLock()
 	defer ps.mtx.RUnlock()
 
 	now := time.Now()
-	result := make(map[peer.ID]*PeerInfo, len(ps.peers))
+	result := make(map[peer.ID]PeerInfo, len(ps.peers))
 	for id, info := range ps.peers {
-		if now.Sub(info.LastSeen) <= ps.ttl {
+		if now.Sub(info.lastSeen) <= ps.ttl {
 			result[id] = info
 		}
 	}
@@ -89,7 +92,7 @@ func (ps *PeerStore) GetLastSeen(id peer.ID) (time.Time, bool) {
 		return time.Time{}, false
 	}
 
-	return info.LastSeen, true
+	return info.lastSeen, true
 }
 
 func (ps *PeerStore) cleanupLoop(ctx context.Context) {
@@ -112,7 +115,7 @@ func (ps *PeerStore) removeExpired() {
 	defer ps.mtx.Unlock()
 
 	for id, info := range ps.peers {
-		if time.Since(info.LastSeen) > ps.ttl {
+		if time.Since(info.lastSeen) > ps.ttl {
 			log.Printf("peer expired: %s", id)
 			delete(ps.peers, id)
 		}
