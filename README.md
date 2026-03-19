@@ -2,7 +2,7 @@
 
 A peer discovery server for the [peanut](https://github.com/pancpp/peanut) P2P virtual network. It maintains a registry of peer addresses so that nodes can find each other.
 
-Different from Kad DHT service, this discovery server is a simple implementation for small size private networks.
+Different from Kad DHT service, this discovery server is a simple example  implementation for small size private networks.
 
 Built with [go-libp2p](https://github.com/libp2p/go-libp2p) using QUIC transport.
 
