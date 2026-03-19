@@ -22,7 +22,10 @@ go build
 ```
 
 With version info:
-
+```bash
+./jenkins.sh
+```
+or
 ```bash
 go build -ldflags "\
   -X github.com/pancpp/peanut-discovery/conf.gVersion=1.0.0 \
