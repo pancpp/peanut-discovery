@@ -10,6 +10,6 @@ const (
 )
 
 const (
-	PROTOCOL_HEARTBEAT = "/peanut/heartbeat/1.0"
-	PROTOCOL_DISCOVERY = "/peanut/discovery/1.0"
+	PROTOCOL_ANNOUNCE = "/peanut/announce/1.0"
+	PROTOCOL_DISCOVER = "/peanut/discover/1.0"
 )

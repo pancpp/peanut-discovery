@@ -27,10 +27,10 @@ func Init(ctx context.Context) error {
 	log.Println("[app] listen addr:", p2pHost.Addrs())
 
 	// init heartbeat service
-	p2pHost.SetStreamHandler(PROTOCOL_HEARTBEAT, handleHeartbeat)
+	p2pHost.SetStreamHandler(PROTOCOL_ANNOUNCE, handleAnnouncement)
 
 	// init discovery service
-	p2pHost.SetStreamHandler(PROTOCOL_DISCOVERY, handleDiscovery)
+	p2pHost.SetStreamHandler(PROTOCOL_DISCOVER, handleDiscovery)
 
 	return nil
 }

@@ -10,30 +10,30 @@ import (
 	ma "github.com/multiformats/go-multiaddr"
 )
 
-type HeartbeatMessage struct {
+type AnnounceMessage struct {
 	MultiAddrs []string `json:"multi_addrs"`
 }
 
-func handleHeartbeat(stream network.Stream) {
+func handleAnnouncement(stream network.Stream) {
 	defer stream.Close()
 
 	remotePeer := stream.Conn().RemotePeer()
 
 	if err := stream.SetReadDeadline(time.Now().Add(P2P_READ_TIMEOUT)); err != nil {
-		log.Printf("[heartbeat] set read deadline err: %v, peer: %s", err, remotePeer)
+		log.Printf("[announce] set read deadline err: %v, peer: %s", err, remotePeer)
 		return
 	}
 
 	// read JSON message from the peer
 	data, err := io.ReadAll(io.LimitReader(stream, P2P_MAX_READ_BYTES))
 	if err != nil {
-		log.Printf("[heartbeat] read err: %v, peer: %s", err, remotePeer)
+		log.Printf("[announce] read err: %v, peer: %s", err, remotePeer)
 		return
 	}
 
-	var msg HeartbeatMessage
+	var msg AnnounceMessage
 	if err := json.Unmarshal(data, &msg); err != nil {
-		log.Printf("[heartbeat] json decode err: %v, peer: %s", err, remotePeer)
+		log.Printf("[announce] json decode err: %v, peer: %s", err, remotePeer)
 		return
 	}
 
@@ -42,17 +42,17 @@ func handleHeartbeat(stream network.Stream) {
 	for _, s := range msg.MultiAddrs {
 		addr, err := ma.NewMultiaddr(s)
 		if err != nil {
-			log.Printf("[heartbeat] invalid multiaddr from peer %s: %q", remotePeer, s)
+			log.Printf("[announce] invalid multiaddr from peer %s: %q", remotePeer, s)
 			continue
 		}
 		multiAddrs = append(multiAddrs, addr)
 	}
 	if len(multiAddrs) == 0 {
-		log.Println("[heartbeat] invalid multi-addresses:", msg.MultiAddrs)
+		log.Println("[announce] invalid multi-addresses:", msg.MultiAddrs)
 		return
 	}
 
 	gPeerStore.Update(remotePeer, multiAddrs)
 
-	log.Printf("[heartbeat] updated peer %s, IP: %v, multiAddrs: %v", remotePeer, multiAddrs)
+	log.Printf("[announce] updated peer %s, IP: %v, multiAddrs: %v", remotePeer, multiAddrs)
 }
