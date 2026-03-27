@@ -54,5 +54,5 @@ func handleAnnouncement(stream network.Stream) {
 
 	gPeerStore.Update(remotePeer, multiAddrs)
 
-	log.Printf("[announce] updated peer %s, IP: %v, multiAddrs: %v", remotePeer, multiAddrs)
+	log.Printf("[announce] updated peer %s, multiAddrs: %v", remotePeer, multiAddrs)
 }
